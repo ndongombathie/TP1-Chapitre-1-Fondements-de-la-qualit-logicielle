@@ -22,15 +22,9 @@ public class GestionRendezVous {
 
     // Chaque rendez-vous est stocké comme : [patient, type, date, vip, prix]
     private final List<String[]> rendezVous = new ArrayList<>();
-
-    public double ajouterRendezVous(String patient, String type, String date, boolean estVip) {
-        if (patient == null || patient.trim().isEmpty()) {
-            throw new IllegalArgumentException("Le nom du patient est obligatoire");
-        }
-        if (date == null || date.trim().isEmpty()) {
-            throw new IllegalArgumentException("La date est obligatoire");
-        }
-
+    
+    //calcule le tarif de la consultation en fonction du type de consultation
+    private double calculeTarifTypeConsultation(String type){
         double prix;
         if (type.equals("GENERALISTE")) {
             prix = 5000;
@@ -41,9 +35,11 @@ public class GestionRendezVous {
         } else {
             throw new IllegalArgumentException("Type de consultation inconnu: " + type);
         }
+        return prix;
+    }
 
-        LocalDate d = LocalDate.parse(date);
-        if (d.getDayOfWeek() == DayOfWeek.SATURDAY || d.getDayOfWeek() == DayOfWeek.SUNDAY) {
+    private double calculeTarifReductionWeekend(String type,LocalDate date,double prix){
+        if (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY) {
             if (type.equals("GENERALISTE")) {
                 prix = prix + prix * 0.2;
             } else if (type.equals("SPECIALISTE")) {
@@ -52,7 +48,10 @@ public class GestionRendezVous {
                 prix = prix + prix * 0.2;
             }
         }
+        return prix;
+    }
 
+     private double calculeTarifReductionEstvip(boolean estVip,String type,double prix){
         if (estVip) {
             if (type.equals("GENERALISTE")) {
                 prix = prix - prix * 0.1;
@@ -62,13 +61,37 @@ public class GestionRendezVous {
                 prix = prix - prix * 0.1;
             }
         }
-        
-        // Reduit de 15% si le patient a déjà 2 rendez-vous le même jour
-        int count = nombreRendezVous(patient, date);
-        if (count >= 2) {
-            prix = prix - prix * 0.15;
-        }
+        return prix;
+    }
 
+
+
+    private void patientNull(String patient){
+        if (patient == null || patient.trim().isEmpty()) {
+            throw new IllegalArgumentException("Le nom du patient est obligatoire");
+        }
+    }
+
+    private void dateNull(String date){
+        if (date == null || date.trim().isEmpty()) {
+            throw new IllegalArgumentException("La date est obligatoire");
+        }
+    }
+
+    public double ajouterRendezVous(String patient, String type, String date, boolean estVip) {
+        patientNull(patient);
+        dateNull(date);
+
+        double prix;
+        prix = calculeTarifTypeConsultation(type);
+
+        LocalDate d = LocalDate.parse(date);
+        prix = calculeTarifReductionWeekend(type,d,prix);
+
+        prix = calculeTarifReductionEstvip(estVip,type,prix);
+
+        prix = reductionTarif(patient, date,prix);
+        
         rendezVous.add(new String[]{patient, type, date, String.valueOf(estVip), String.valueOf(prix)});
 
         System.out.println("Rendez-vous ajouté pour " + patient + " (" + type + ") le " + date + " - " + prix + " FCFA");
@@ -77,12 +100,9 @@ public class GestionRendezVous {
     }
 
     public void annulerRendezVous(String patient, String date) {
-        if (patient == null || patient.trim().isEmpty()) {
-            throw new IllegalArgumentException("Le nom du patient est obligatoire");
-        }
-        if (date == null || date.trim().isEmpty()) {
-            throw new IllegalArgumentException("La date est obligatoire");
-        }
+        patientNull(patient);
+        dateNull(date);
+        
         rendezVous.removeIf(r -> r[0].equals(patient) && r[2].equals(date));
         System.out.println("Rendez-vous annulé pour " + patient + " le " + date);
     }
@@ -96,36 +116,12 @@ public class GestionRendezVous {
                 String date = r[2];
 
                 double prix;
-                if (type.equals("GENERALISTE")) {
-                    prix = 5000;
-                } else if (type.equals("SPECIALISTE")) {
-                    prix = 10000;
-                } else if (type.equals("URGENCE")) {
-                    prix = 15000;
-                } else {
-                    prix = 0;
-                }
+                prix = calculeTarifTypeConsultation(type);
 
                 LocalDate d = LocalDate.parse(date);
-                if (d.getDayOfWeek() == DayOfWeek.SATURDAY || d.getDayOfWeek() == DayOfWeek.SUNDAY) {
-                    if (type.equals("GENERALISTE")) {
-                        prix = prix + prix * 0.2;
-                    } else if (type.equals("SPECIALISTE")) {
-                        prix = prix + prix * 0.2;
-                    } else if (type.equals("URGENCE")) {
-                        prix = prix + prix * 0.2;
-                    }
-                }
+                prix = calculeTarifReductionWeekend(type,d,prix);
 
-                if (vip) {
-                    if (type.equals("GENERALISTE")) {
-                        prix = prix - prix * 0.1;
-                    } else if (type.equals("SPECIALISTE")) {
-                        prix = prix - prix * 0.1;
-                    } else if (type.equals("URGENCE")) {
-                        prix = prix - prix * 0.1;
-                    }
-                }
+                prix = calculeTarifReductionEstvip(vip,type,prix);
 
                 total = total + prix;
             }
@@ -154,4 +150,11 @@ public class GestionRendezVous {
     // Écrivez d'abord le test dans GestionRendezVousTest (RED), faites-le
     // passer avec le code le plus simple possible (GREEN), puis nettoyez
     // (REFACTOR) en gardant tous les tests verts.
+    public double reductionTarif(String patient, String date,double prix) {
+        int count = nombreRendezVous(patient, date);
+        if (count >= 2) {
+            prix = prix - prix * 0.15;
+        }
+        return prix;
+    }
 }
