@@ -36,7 +36,8 @@ délibérée/involontaire × prudente/imprudente et justifiez en une phrase.
 
 - Lien ou hash du commit GREEN :https://github.com/ndongombathie/TP1-Chapitre-1-Fondements-de-la-qualit-logicielle/commit/2a1726daa71b65b3828218f59324ab524024d10e
 
-- Lien ou hash du commit REFACTOR :
+- Lien ou hash du commit REFACTOR : https://github.com/ndongombathie/TP1-Chapitre-1-Fondements-de-la-qualit-logicielle/commit/6c8ffd280c5061718b839295e09e1347d0a3a60f
+
 - Difficulté rencontrée pendant le cycle (le cas échéant) :
 
 ## 5. Couverture de code
