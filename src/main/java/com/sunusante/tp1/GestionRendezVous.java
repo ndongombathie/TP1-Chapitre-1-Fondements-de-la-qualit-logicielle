@@ -62,6 +62,12 @@ public class GestionRendezVous {
                 prix = prix - prix * 0.1;
             }
         }
+        
+        // Reduit de 15% si le patient a déjà 2 rendez-vous le même jour
+        int count = nombreRendezVous(patient, date);
+        if (count >= 2) {
+            prix = prix - prix * 0.15;
+        }
 
         rendezVous.add(new String[]{patient, type, date, String.valueOf(estVip), String.valueOf(prix)});
 
