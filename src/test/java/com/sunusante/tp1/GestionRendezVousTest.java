@@ -49,6 +49,15 @@ class GestionRendezVousTest {
     // du 2e rendez-vous du même patient le même jour, AVANT d'implémenter la
     // fonctionnalité dans GestionRendezVous (cycle RED -> GREEN -> REFACTOR).
     @Test
+    void testnombreRendezVous(){
+        GestionRendezVous g = new GestionRendezVous();
+        g.ajouterRendezVous("Awa Ndiaye", "GENERALISTE", "2026-07-21", false); // 5000
+        g.ajouterRendezVous("Awa Ndiaye", "SPECIALISTE", "2026-07-21", false); // 10000
+        g.ajouterRendezVous("Awa Ndiaye", "SPECIALISTE", "2026-07-21", false); // 10000
+        assertEquals(3, g.nombreRendezVous("Awa Ndiaye","2026-07-21"));
+    }
+
+    @Test
     void testReductionTarif() {
         GestionRendezVous g = new GestionRendezVous();
         g.ajouterRendezVous("Awa Ndiaye", "GENERALISTE", "2026-07-21", false); // 5000
