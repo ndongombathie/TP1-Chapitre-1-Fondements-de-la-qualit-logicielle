@@ -17,8 +17,8 @@ la complexité cyclomatique des methodes ajouterRendezVous et calculerTotalFactu
 
 | Méthode | Complexité avant | Niveau de risque avant | Complexité après | Niveau de risque après |
 |---|---|---|---|---|
-| `ajouterRendezVous` | | | | |
-| `calculerTotalFacture` | | | | |
+| `ajouterRendezVous` | 17 | Modérée, à surveiller | 1 | Simple, faible risque |
+| `calculerTotalFacture` | 15 | Modérée, à surveiller | 3 | Simple, faible risque |
 
 ## 3. Dette technique identifiée (matrice de Fowler)
 
