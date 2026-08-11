@@ -9,6 +9,10 @@ qualité interne ? Expliquez en une ou deux phrases, en citant les indices
 concrets de la version de départ qui montrent un problème de qualité
 interne malgré des tests verts.
 
+# réponse :
+meme si tous les tests unitaires sont verts cela ne garantie pas la qualité interne car les tests ne testent que les fonctionnalités et non les conditions d'utilisation.
+la complexité cyclomatique des methodes ajouterRendezVous et calculerTotalFacture est élevé ce qui peut être un problème de qualité interne.
+
 ## 2. Complexité cyclomatique (avant / après)
 
 | Méthode | Complexité avant | Niveau de risque avant | Complexité après | Niveau de risque après |
