@@ -57,23 +57,23 @@ class GestionRendezVousTest {
     @Test
     void Test_annulerRendezVous() {
         GestionRendezVous g = new GestionRendezVous();
-        g.ajouterRendezVous("Awa Ndiaye", "GENERALISTE", "2026-07-22", true); // 5000
-        g.ajouterRendezVous("Awa Ndiaye", "SPECIALISTE", "2026-07-22", true); // 10000
-        g.annulerRendezVous("Awa Ndiaye", "2026-07-22");
-        assertEquals(0, g.nombreRendezVous("Awa Ndiaye","2026-07-22"));
+        g.ajouterRendezVous("Awa Ndiaye", "GENERALISTE", "2026-07-21", true); // 5000
+        g.ajouterRendezVous("Awa Ndiaye", "SPECIALISTE", "2026-07-21", true); // 10000
+        g.annulerRendezVous("Awa Ndiaye", "2026-07-21");
+        assertEquals(0, g.nombreRendezVous("Awa Ndiaye","2026-07-21"));
     }
 
     @Test
     void Test_afficherRendezVous() {
         GestionRendezVous g = new GestionRendezVous();
-        g.ajouterRendezVous("Awa Ndiaye", "GENERALISTE", "2026-07-22", true); // 5000
+        g.ajouterRendezVous("Awa Ndiaye", "GENERALISTE", "2026-07-21", true); // 5000
         g.afficherRendezVous();
     }
 
     @Test
     void Test_patientNull() {
         GestionRendezVous g = new GestionRendezVous();
-        assertThrows(IllegalArgumentException.class, () -> g.ajouterRendezVous(null, "GENERALISTE", "2026-07-22", true));
+        assertThrows(IllegalArgumentException.class, () -> g.ajouterRendezVous(null, "GENERALISTE", "2026-07-21", true));
 
     }
 
