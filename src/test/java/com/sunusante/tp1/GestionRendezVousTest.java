@@ -3,6 +3,7 @@ package com.sunusante.tp1;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Filet de tests de caractérisation : ils décrivent le comportement ACTUEL
@@ -69,6 +70,20 @@ class GestionRendezVousTest {
         g.afficherRendezVous();
     }
 
+    @Test
+    void Test_patientNull() {
+        GestionRendezVous g = new GestionRendezVous();
+        assertThrows(IllegalArgumentException.class, () -> g.ajouterRendezVous(null, "GENERALISTE", "2026-07-22", true));
+
+    }
+
+    @Test
+    void Test_dateNull() {
+        GestionRendezVous g = new GestionRendezVous();
+        assertThrows(IllegalArgumentException.class, () -> g.ajouterRendezVous("Awa Ndiaye", "GENERALISTE", null, true));
+
+    }
+
     // TODO (TP1, étape TDD) : écrivez ici vos tests pour le tarif dégressif
     // du 2e rendez-vous du même patient le même jour, AVANT d'implémenter la
     // fonctionnalité dans GestionRendezVous (cycle RED -> GREEN -> REFACTOR).
@@ -80,6 +95,7 @@ class GestionRendezVousTest {
         g.ajouterRendezVous("Awa Ndiaye", "SPECIALISTE", "2026-07-21", false); // 10000
         assertEquals(3, g.nombreRendezVous("Awa Ndiaye","2026-07-21"));
     }
+
 
     @Test
     void testReductionTarif() {
