@@ -42,7 +42,7 @@ délibérée/involontaire × prudente/imprudente et justifiez en une phrase.
 
 ## 5. Couverture de code
 
-- Couverture globale obtenue : ____ %
+- Couverture globale obtenue : 69 %
 - Classe la moins couverte : ______, pourquoi (justifiée ou pas) ?
 
 ## 6. Positionnement ISO/IEC 25010

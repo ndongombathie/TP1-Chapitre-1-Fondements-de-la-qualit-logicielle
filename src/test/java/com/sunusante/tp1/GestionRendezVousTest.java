@@ -45,6 +45,14 @@ class GestionRendezVousTest {
         assertEquals(15000, g.calculerTotalFacture("Awa Ndiaye"));
     }
 
+    @Test
+    void calculerTotalFacture_estVip() {
+        GestionRendezVous g = new GestionRendezVous();
+        g.ajouterRendezVous("Awa Ndiaye", "GENERALISTE", "2026-07-21", true); // 5000
+        g.ajouterRendezVous("Awa Ndiaye", "SPECIALISTE", "2026-07-21", true); // 10000
+        assertEquals(13500.f, g.calculerTotalFacture("Awa Ndiaye"));
+    }
+
     // TODO (TP1, étape TDD) : écrivez ici vos tests pour le tarif dégressif
     // du 2e rendez-vous du même patient le même jour, AVANT d'implémenter la
     // fonctionnalité dans GestionRendezVous (cycle RED -> GREEN -> REFACTOR).
