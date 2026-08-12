@@ -1,6 +1,6 @@
 # Rapport qualité - TP1 SunuSanté
 
-Nom / Groupe :
+Nom / Groupe : Ndongo MBATH , Khady KA / Groupe 6
 
 ## 1. Qualité interne vs externe
 
@@ -27,8 +27,8 @@ délibérée/involontaire × prudente/imprudente et justifiez en une phrase.
 
 | Problème | Délibérée ou involontaire ? | Prudente ou imprudente ? | Justification |
 |---|---|---|---|
-| Duplication de la logique de tarif | | | |
-| Absence de séparation affichage / logique métier | | | |
+| Duplication de la logique de tarif | Délibérée | imprudente | La logique de calcul est répétée au lieu d'être factorisée, ce qui augmente le risque d'incohérences et rend les modifications plus difficiles. |
+| Absence de séparation affichage / logique métier | Délibérée | imprudente | Mélanger la logique métier et l'affichage simplifie éventuellement le développement initial, mais rend le code plus difficile à tester, maintenir et faire évoluer. |
 
 ## 4. Cycle TDD
 
@@ -43,7 +43,8 @@ délibérée/involontaire × prudente/imprudente et justifiez en une phrase.
 ## 5. Couverture de code
 
 - Couverture globale obtenue : 93 %
-- Classe la moins couverte : ______, pourquoi (justifiée ou pas) ?
+- Classe la moins couverte : GestionRendezVous, pourquoi (justifiée ou pas) ?
+- Parce que La couverture des branches (72 %) montre surtout que certains cas conditionnels ne sont pas encore testés.
 
 ## 6. Positionnement ISO/IEC 25010
 
@@ -52,10 +53,11 @@ refactoring les a améliorées, et comment.
 
 | Caractéristique | Impact du refactoring |
 |---|---|
-| Maintenabilité | |
-| Fiabilité | |
+| Maintenabilité | le refactoring a amélioré la maintenabilité car les classes ont plus de complexité cyclomatique et moins de dupliquer de code. |
+| Fiabilité | le refactoring a amélioré la fiabilité car les classes ont plus de complexité cyclomatique et moins de dupliquer de code. |
 | (votre choix) | |
 
 ## 7. Ce que je referais différemment
 
 Deux ou trois phrases sur ce que vous changeriez si c'était à refaire.
+- Je referais la classe GestionRendezVous car elle ne respecte pas les principes SOLID.
