@@ -43,7 +43,8 @@ class GestionRendezVousTest {
         GestionRendezVous g = new GestionRendezVous();
         g.ajouterRendezVous("Awa Ndiaye", "GENERALISTE", "2026-07-21", false); // 5000
         g.ajouterRendezVous("Awa Ndiaye", "SPECIALISTE", "2026-07-21", false); // 10000
-        assertEquals(15000, g.calculerTotalFacture("Awa Ndiaye"));
+        Facture f = new Facture("Awa Ndiaye", g.getRendezVous());
+        assertEquals(15000, f.calculerTotalFacture());
     }
 
     @Test
@@ -51,7 +52,8 @@ class GestionRendezVousTest {
         GestionRendezVous g = new GestionRendezVous();
         g.ajouterRendezVous("Awa Ndiaye", "GENERALISTE", "2026-07-21", true); // 5000
         g.ajouterRendezVous("Awa Ndiaye", "SPECIALISTE", "2026-07-21", true); // 10000
-        assertEquals(13500.f, g.calculerTotalFacture("Awa Ndiaye"));
+         Facture f = new Facture("Awa Ndiaye", g.getRendezVous());
+        assertEquals(13500.f, f.calculerTotalFacture());
     }
 
     @Test

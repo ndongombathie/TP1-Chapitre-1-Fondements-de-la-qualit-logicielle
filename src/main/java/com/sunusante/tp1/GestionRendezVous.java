@@ -22,38 +22,9 @@ public class GestionRendezVous {
 
     // Chaque rendez-vous est stocké comme : [patient, type, date, vip, prix]
     private final List<String[]> rendezVous = new ArrayList<>();
+    private Tarif tarif = null;
     
     //calcule le tarif de la consultation en fonction du type de consultation
-    private double calculeTarifTypeConsultation(String type){
-        double prix;
-        if (type.equals("GENERALISTE")) {
-            prix = 5000;
-        } else if (type.equals("SPECIALISTE")) {
-            prix = 10000;
-        } else if (type.equals("URGENCE")) {
-            prix = 15000;
-        } else {
-            throw new IllegalArgumentException("Type de consultation inconnu: " + type);
-        }
-        return prix;
-    }
-
-    private double calculeTarifReductionWeekend(String type,LocalDate date,double prix){
-        if (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY) {
-            prix *= 1.20;
-        }
-        return prix;
-    }
-
-     private double calculeTarifReductionEstvip(boolean estVip,String type,double prix){
-        if (estVip) {
-            prix *= 0.90;
-        }
-        return prix;
-    }
-
-
-
     private void patientNull(String patient){
         if (patient == null || patient.trim().isEmpty()) {
             throw new IllegalArgumentException("Le nom du patient est obligatoire");
@@ -69,16 +40,18 @@ public class GestionRendezVous {
     public double ajouterRendezVous(String patient, String type, String date, boolean estVip) {
         patientNull(patient);
         dateNull(date);
+        LocalDate d = LocalDate.parse(date);
+        tarif = new Tarif(type, d, 0, estVip);
 
         double prix;
-        prix = calculeTarifTypeConsultation(type);
+        
+        prix = tarif.calculeTarifTypeConsultation();
 
-        LocalDate d = LocalDate.parse(date);
-        prix = calculeTarifReductionWeekend(type,d,prix);
+        prix = tarif.calculeTarifReductionWeekend();
 
-        prix = calculeTarifReductionEstvip(estVip,type,prix);
+        prix = tarif.calculeTarifReductionEstvip();
 
-        prix = reductionTarif(patient, date,prix);
+        prix = reductionTarif(patient, date, prix);
         
         rendezVous.add(new String[]{patient, type, date, String.valueOf(estVip), String.valueOf(prix)});
 
@@ -93,28 +66,6 @@ public class GestionRendezVous {
         
         rendezVous.removeIf(r -> r[0].equals(patient) && r[2].equals(date));
         System.out.println("Rendez-vous annulé pour " + patient + " le " + date);
-    }
-
-    public double calculerTotalFacture(String patient) {
-        double total = 0;
-        for (String[] r : rendezVous) {
-            if (r[0].equals(patient)) {
-                String type = r[1];
-                boolean vip = Boolean.parseBoolean(r[3]);
-                String date = r[2];
-
-                double prix;
-                prix = calculeTarifTypeConsultation(type);
-
-                LocalDate d = LocalDate.parse(date);
-                prix = calculeTarifReductionWeekend(type,d,prix);
-
-                prix = calculeTarifReductionEstvip(vip,type,prix);
-
-                total = total + prix;
-            }
-        }
-        return total;
     }
 
     public void afficherRendezVous() {
@@ -144,5 +95,9 @@ public class GestionRendezVous {
             prix = prix - prix * 0.15;
         }
         return prix;
+    }
+
+    public List<String[]> getRendezVous() {
+        return rendezVous;
     }
 }
