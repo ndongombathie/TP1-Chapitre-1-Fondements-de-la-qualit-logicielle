@@ -1,5 +1,6 @@
 package com.sunusante.tp1;
 
 public interface TypeConsultation {
-    double calculeTarifTypeConsultation();
+    String getName();
+    double calculeTarifConsultation();
 }

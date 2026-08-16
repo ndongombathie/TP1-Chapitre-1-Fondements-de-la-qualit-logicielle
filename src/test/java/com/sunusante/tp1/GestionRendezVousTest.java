@@ -20,29 +20,32 @@ class GestionRendezVousTest {
     @Test
     void ajouterRendezVous_generaliste_semaine_tarifDeBase() {
         GestionRendezVous g = new GestionRendezVous();
-        double prix = g.ajouterRendezVous("Awa Ndiaye", "GENERALISTE", "2026-07-21", false);
+        TypeConsultation consultation = new Generaliste();
+        double prix = g.ajouterRendezVous("Awa Ndiaye", consultation, "2026-07-21", false);
         assertEquals(5000, prix);
     }
 
     @Test
     void ajouterRendezVous_specialiste_weekend_majore() {
         GestionRendezVous g = new GestionRendezVous();
-        double prix = g.ajouterRendezVous("Awa Ndiaye", "SPECIALISTE", "2026-07-25", false);
+        TypeConsultation consultation = new Specialite();
+        double prix = g.ajouterRendezVous("Awa Ndiaye", consultation, "2026-07-25", false);
         assertEquals(12000, prix); // 10000 + 20% de majoration weekend
     }
 
     @Test
     void ajouterRendezVous_urgence_vip_reduit() {
         GestionRendezVous g = new GestionRendezVous();
-        double prix = g.ajouterRendezVous("Moussa Fall", "URGENCE", "2026-07-21", true);
+        TypeConsultation consultation = new Urgence();
+        double prix = g.ajouterRendezVous("Moussa Fall", consultation, "2026-07-21", true);
         assertEquals(13500, prix); // 15000 - 10% de réduction VIP
     }
 
     @Test
     void calculerTotalFacture_sommeLesRendezVousDuPatient() {
         GestionRendezVous g = new GestionRendezVous();
-        g.ajouterRendezVous("Awa Ndiaye", "GENERALISTE", "2026-07-21", false); // 5000
-        g.ajouterRendezVous("Awa Ndiaye", "SPECIALISTE", "2026-07-21", false); // 10000
+        g.ajouterRendezVous("Awa Ndiaye", new Generaliste(), "2026-07-21", false); // 5000
+        g.ajouterRendezVous("Awa Ndiaye", new Specialite(), "2026-07-21", false); // 10000
         Facture f = new Facture("Awa Ndiaye", g.getRendezVous());
         assertEquals(15000, f.calculerTotalFacture());
     }
@@ -50,17 +53,17 @@ class GestionRendezVousTest {
     @Test
     void calculerTotalFacture_estVip() {
         GestionRendezVous g = new GestionRendezVous();
-        g.ajouterRendezVous("Awa Ndiaye", "GENERALISTE", "2026-07-21", true); // 5000
-        g.ajouterRendezVous("Awa Ndiaye", "SPECIALISTE", "2026-07-21", true); // 10000
-         Facture f = new Facture("Awa Ndiaye", g.getRendezVous());
+        g.ajouterRendezVous("Awa Ndiaye", new Generaliste(), "2026-07-21", true); // 5000
+        g.ajouterRendezVous("Awa Ndiaye", new Specialite(), "2026-07-21", true); // 10000
+        Facture f = new Facture("Awa Ndiaye", g.getRendezVous());
         assertEquals(13500.f, f.calculerTotalFacture());
     }
 
     @Test
     void Test_annulerRendezVous() {
         GestionRendezVous g = new GestionRendezVous();
-        g.ajouterRendezVous("Awa Ndiaye", "GENERALISTE", "2026-07-21", true); // 5000
-        g.ajouterRendezVous("Awa Ndiaye", "SPECIALISTE", "2026-07-21", true); // 10000
+        g.ajouterRendezVous("Awa Ndiaye", new Generaliste(), "2026-07-21", true); // 5000
+        g.ajouterRendezVous("Awa Ndiaye", new Specialite(), "2026-07-21", true); // 10000
         g.annulerRendezVous("Awa Ndiaye", "2026-07-21");
         assertEquals(0, g.nombreRendezVous("Awa Ndiaye","2026-07-21"));
     }
@@ -68,21 +71,21 @@ class GestionRendezVousTest {
     @Test
     void Test_afficherRendezVous() {
         GestionRendezVous g = new GestionRendezVous();
-        g.ajouterRendezVous("Awa Ndiaye", "GENERALISTE", "2026-07-21", true); // 5000
+        g.ajouterRendezVous("Awa Ndiaye", new Generaliste(), "2026-07-21", true); // 5000
         g.afficherRendezVous();
     }
 
     @Test
     void Test_patientNull() {
         GestionRendezVous g = new GestionRendezVous();
-        assertThrows(IllegalArgumentException.class, () -> g.ajouterRendezVous(null, "GENERALISTE", "2026-07-21", true));
+        assertThrows(IllegalArgumentException.class, () -> g.ajouterRendezVous(null, new Generaliste(), "2026-07-21", true));
 
     }
 
     @Test
     void Test_dateNull() {
         GestionRendezVous g = new GestionRendezVous();
-        assertThrows(IllegalArgumentException.class, () -> g.ajouterRendezVous("Awa Ndiaye", "GENERALISTE", null, true));
+        assertThrows(IllegalArgumentException.class, () -> g.ajouterRendezVous("Awa Ndiaye", new Generaliste(), null, true));
 
     }
 
@@ -92,9 +95,9 @@ class GestionRendezVousTest {
     @Test
     void testnombreRendezVous(){
         GestionRendezVous g = new GestionRendezVous();
-        g.ajouterRendezVous("Awa Ndiaye", "GENERALISTE", "2026-07-21", false); // 5000
-        g.ajouterRendezVous("Awa Ndiaye", "SPECIALISTE", "2026-07-21", false); // 10000
-        g.ajouterRendezVous("Awa Ndiaye", "SPECIALISTE", "2026-07-21", false); // 10000
+        g.ajouterRendezVous("Awa Ndiaye", new Generaliste(), "2026-07-21", false); // 5000
+        g.ajouterRendezVous("Awa Ndiaye", new Specialite(), "2026-07-21", false); // 10000
+        g.ajouterRendezVous("Awa Ndiaye", new Specialite(), "2026-07-21", false); // 10000
         assertEquals(3, g.nombreRendezVous("Awa Ndiaye","2026-07-21"));
     }
 
@@ -102,9 +105,9 @@ class GestionRendezVousTest {
     @Test
     void testReductionTarif() {
         GestionRendezVous g = new GestionRendezVous();
-        g.ajouterRendezVous("Awa Ndiaye", "GENERALISTE", "2026-07-21", false); // 5000
-        g.ajouterRendezVous("Awa Ndiaye", "SPECIALISTE", "2026-07-21", false); // 10000
-        double prix = g.ajouterRendezVous("Awa Ndiaye", "SPECIALISTE", "2026-07-21", false); // 10000
+        g.ajouterRendezVous("Awa Ndiaye", new Generaliste(), "2026-07-21", false); // 5000
+        g.ajouterRendezVous("Awa Ndiaye", new Specialite(), "2026-07-21", false); // 10000
+        double prix = g.ajouterRendezVous("Awa Ndiaye", new Specialite(), "2026-07-21", false); // 10000
         assertEquals(8500.f, prix);
     }
 }

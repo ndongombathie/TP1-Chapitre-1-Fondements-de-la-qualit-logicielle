@@ -1,8 +1,13 @@
 package com.sunusante.tp1;
 
 public class Urgence implements TypeConsultation {
+    public String name="URGENCE";
     @Override
-    public double calculeTarifTypeConsultation() {
+    public double calculeTarifConsultation() {
         return 15000;
+    }
+
+    public String getName() {
+        return name;
     }
 }

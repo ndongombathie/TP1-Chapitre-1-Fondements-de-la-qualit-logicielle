@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Facture {
     private String patient ;
-    private List<String[]> rendezVous = new ArrayList<>();
+    private List<Object[]> rendezVous = new ArrayList<>();
     private Tarif tarif = null;
 
     public Facture() {
@@ -14,7 +14,7 @@ public class Facture {
         this.rendezVous = null;
     }
     
-    public Facture(String patient, List<String[]> rendezVous) {
+    public Facture(String patient, List<Object[]> rendezVous) {
         this.patient = patient;
         this.rendezVous = rendezVous;
     }
@@ -22,11 +22,11 @@ public class Facture {
 
     public double calculerTotalFacture() {
         double total = 0;
-        for (String[] r : this.rendezVous) {
+        for (Object[] r : this.rendezVous) {
             if (r[0].equals(this.patient)) {
-                String type = r[1];
-                boolean vip = Boolean.parseBoolean(r[3]);
-                String date = r[2];
+                TypeConsultation type = (TypeConsultation)r[1];
+                boolean vip = Boolean.parseBoolean((String)r[3]);
+                String date = (String)r[2];
                 LocalDate d = LocalDate.parse(date);
                 this.tarif= new Tarif(type, d, total, vip);
 

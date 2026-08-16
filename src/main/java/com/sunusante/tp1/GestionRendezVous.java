@@ -21,7 +21,7 @@ import java.util.List;
 public class GestionRendezVous {
 
     // Chaque rendez-vous est stocké comme : [patient, type, date, vip, prix]
-    private final List<String[]> rendezVous = new ArrayList<>();
+    private final List<Object[]> rendezVous = new ArrayList<>();
     private Tarif tarif = null;
     
     //calcule le tarif de la consultation en fonction du type de consultation
@@ -37,25 +37,28 @@ public class GestionRendezVous {
         }
     }
 
-    public double ajouterRendezVous(String patient, String type, String date, boolean estVip) {
+    public double ajouterRendezVous(String patient, TypeConsultation consultation, String date, boolean estVip) {
         patientNull(patient);
         dateNull(date);
         LocalDate d = LocalDate.parse(date);
-        tarif = new Tarif(type, d, 0, estVip);
+        tarif = new Tarif(consultation, d, 0, estVip);
 
         double prix;
         
         prix = tarif.calculeTarifTypeConsultation();
+        System.out.println("calcul du prix"+ prix);
 
         prix = tarif.calculeTarifReductionWeekend();
+        System.out.println("calcul du prix"+ prix);
 
         prix = tarif.calculeTarifReductionEstvip();
+        System.out.println("calcul du prix"+ prix);
 
         prix = reductionTarif(patient, date, prix);
         
-        rendezVous.add(new String[]{patient, type, date, String.valueOf(estVip), String.valueOf(prix)});
+        rendezVous.add(new Object[]{patient, consultation , date, String.valueOf(estVip), String.valueOf(prix)});
 
-        System.out.println("Rendez-vous ajouté pour " + patient + " (" + type + ") le " + date + " - " + prix + " FCFA");
+        System.out.println("Rendez-vous ajouté pour " + patient + " (" + consultation.getName() + ") le " + date + " - " + prix + " FCFA");
 
         return prix;
     }
@@ -69,14 +72,14 @@ public class GestionRendezVous {
     }
 
     public void afficherRendezVous() {
-        for (String[] r : rendezVous) {
+        for (Object[] r : rendezVous) {
             System.out.println(r[0] + " | " + r[1] + " | " + r[2] + " | VIP=" + r[3] + " | " + r[4] + " FCFA");
         }
     }
 
     public int nombreRendezVous(String patient, String date) {
         int count = 0;
-        for (String[] r : rendezVous) {
+        for (Object[] r : rendezVous) {
             if (r[0].equals(patient) && r[2].equals(date)) {
                 count++;
             }
@@ -97,7 +100,7 @@ public class GestionRendezVous {
         return prix;
     }
 
-    public List<String[]> getRendezVous() {
+    public List<Object[]> getRendezVous() {
         return rendezVous;
     }
 }
