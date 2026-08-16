@@ -19,7 +19,6 @@ import java.util.List;
 public class GestionRendezVous {
 
     // Chaque rendez-vous est stocké comme : [patient, type, date, vip, prix]
-    private final List<Object[]> rendezVous = new ArrayList<>();
     private Tarif tarif = null;
     private Stockage stockage = new Stockage();
     
@@ -40,7 +39,7 @@ public class GestionRendezVous {
         patientNull(patient);
         dateNull(date);
         LocalDate d = LocalDate.parse(date);
-        tarif = new Tarif(consultation, d, 0, estVip);
+        tarif = new Tarif(consultation, d, patient , estVip);
 
         double prix;
         
@@ -50,7 +49,7 @@ public class GestionRendezVous {
         
         prix = tarif.calculeTarifReductionEstvip();
         
-        prix = reductionTarif(patient, date, prix);
+        prix = tarif.reductionTarif(date, stockage);
     
 
         stockage.save(patient,consultation,date,estVip,prix);
@@ -64,7 +63,7 @@ public class GestionRendezVous {
         patientNull(patient);
         dateNull(date);
         
-        rendezVous.removeIf(r -> r[0].equals(patient) && r[2].equals(date));
+        stockage.getRendezVous().removeIf(r -> r[0].equals(patient) && r[2].equals(date));
         System.out.println("Rendez-vous annulé pour " + patient + " le " + date);
     }
 
@@ -76,7 +75,6 @@ public class GestionRendezVous {
 
     public int nombreRendezVous(String patient, String date) {
         int count = 0;
-        this.afficherRendezVous();
         for (Object[] r : stockage.getRendezVous()) {
             if (r[0].equals(patient) && r[2].equals(date)) {
                 count++;
@@ -85,19 +83,6 @@ public class GestionRendezVous {
 
         System.out.println("le nombre de rv "+count);
         return count;
-    }
-
-    // TODO (TP1, étape TDD) : ajoutez ici le tarif dégressif de 15% pour le
-    // 2e rendez-vous (et les suivants) d'un même patient à la même date.
-    // Écrivez d'abord le test dans GestionRendezVousTest (RED), faites-le
-    // passer avec le code le plus simple possible (GREEN), puis nettoyez
-    // (REFACTOR) en gardant tous les tests verts.
-    public double reductionTarif(String patient, String date,double prix) {
-        int count = nombreRendezVous(patient, date);
-        if (count >= 2) {
-            prix = prix - prix * 0.15;
-        }
-        return prix;
     }
 
     public List<Object[]> getRendezVous() {

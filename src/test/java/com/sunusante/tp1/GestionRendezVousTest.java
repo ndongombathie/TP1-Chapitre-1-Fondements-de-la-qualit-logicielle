@@ -65,7 +65,7 @@ class GestionRendezVousTest {
         g.ajouterRendezVous("Awa Ndiaye", new Generaliste(), "2026-07-21", true); // 5000
         g.ajouterRendezVous("Awa Ndiaye", new Specialite(), "2026-07-21", true); // 10000
         g.annulerRendezVous("Awa Ndiaye", "2026-07-21");
-        assertEquals(2, g.nombreRendezVous("Awa Ndiaye","2026-07-21"));
+        assertEquals(0, g.nombreRendezVous("Awa Ndiaye","2026-07-21"));
     }
 
     @Test

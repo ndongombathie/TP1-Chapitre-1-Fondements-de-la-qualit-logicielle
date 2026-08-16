@@ -28,7 +28,7 @@ public class Facture {
                 boolean vip = (Boolean)r[3];
                 String date = (String)r[2];
                 LocalDate d = LocalDate.parse(date);
-                this.tarif= new Tarif(type, d, total, vip);
+                this.tarif = new Tarif(type, d, patient, vip);
 
                 double prix;
                 prix = this.tarif.calculeTarifTypeConsultation();

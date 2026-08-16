@@ -8,6 +8,7 @@ public class Tarif {
     private LocalDate date;
     private boolean estVip;
     private double prix;
+    private String patient;
 
     public Tarif(){
         this.consultation = null;
@@ -15,11 +16,11 @@ public class Tarif {
         this.prix = 0.0;
     }
 
-    public Tarif(TypeConsultation type,LocalDate date, double prix,boolean estVip){
+    public Tarif(TypeConsultation type,LocalDate date,String patient,boolean estVip){
         this.consultation=type;
         this.date=date;
-        this.prix=prix;
         this.estVip=estVip;
+        this.patient=patient;
     }
 
     public double calculeTarifTypeConsultation(){
@@ -38,6 +39,22 @@ public class Tarif {
     public double calculeTarifReductionEstvip(){
         if (this.estVip) {
             this.prix *= 0.90;
+        }
+        return this.prix;
+    }
+    
+    //le tarif dégressif de 15% 
+     public double reductionTarif(String date,Stockage stockage) {
+        int count = 0;
+
+        for (Object[] r : stockage.getRendezVous()) {
+            if (r[0].equals(this.patient) && r[2].equals(date)) {
+                count++;
+            }
+        }
+
+        if (count >= 2) {
+            this.prix = this.prix - this.prix * 0.15;
         }
         return this.prix;
     }
