@@ -40,13 +40,7 @@ public class GestionRendezVous {
 
     private double calculeTarifReductionWeekend(String type,LocalDate date,double prix){
         if (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY) {
-            if (type.equals("GENERALISTE")) {
-                prix = prix + prix * 0.2;
-            } else if (type.equals("SPECIALISTE")) {
-                prix = prix + prix * 0.2;
-            } else if (type.equals("URGENCE")) {
-                prix = prix + prix * 0.2;
-            }
+            prix *= 1.20;
         }
         return prix;
     }
