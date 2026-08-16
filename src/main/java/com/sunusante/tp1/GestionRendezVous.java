@@ -23,21 +23,12 @@ public class GestionRendezVous {
     private Stockage stockage = new Stockage();
     
     //calcule le tarif de la consultation en fonction du type de consultation
-    private void patientNull(String patient){
-        if (patient == null || patient.trim().isEmpty()) {
-            throw new IllegalArgumentException("Le nom du patient est obligatoire");
-        }
-    }
-
-    private void dateNull(String date){
-        if (date == null || date.trim().isEmpty()) {
-            throw new IllegalArgumentException("La date est obligatoire");
-        }
-    }
 
     public double ajouterRendezVous(String patient, TypeConsultation consultation, String date, boolean estVip) {
-        patientNull(patient);
-        dateNull(date);
+        Validation v = new Validation(patient, date);
+        v.patientNull();
+        v.dateNull();
+
         LocalDate d = LocalDate.parse(date);
         tarif = new Tarif(consultation, d, patient , estVip);
 
@@ -60,8 +51,9 @@ public class GestionRendezVous {
     }
 
     public void annulerRendezVous(String patient, String date) {
-        patientNull(patient);
-        dateNull(date);
+        Validation v = new Validation(patient, date);
+        v.patientNull();
+        v.dateNull();
         
         stockage.getRendezVous().removeIf(r -> r[0].equals(patient) && r[2].equals(date));
         System.out.println("Rendez-vous annulé pour " + patient + " le " + date);
@@ -81,7 +73,6 @@ public class GestionRendezVous {
             }
         }
 
-        System.out.println("le nombre de rv "+count);
         return count;
     }
 
