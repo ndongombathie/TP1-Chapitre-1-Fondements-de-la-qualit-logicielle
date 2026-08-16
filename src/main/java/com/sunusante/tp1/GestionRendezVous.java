@@ -1,6 +1,4 @@
 package com.sunusante.tp1;
-
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +21,7 @@ public class GestionRendezVous {
     // Chaque rendez-vous est stocké comme : [patient, type, date, vip, prix]
     private final List<Object[]> rendezVous = new ArrayList<>();
     private Tarif tarif = null;
+    private Stockage stockage = new Stockage();
     
     //calcule le tarif de la consultation en fonction du type de consultation
     private void patientNull(String patient){
@@ -52,8 +51,9 @@ public class GestionRendezVous {
         prix = tarif.calculeTarifReductionEstvip();
         
         prix = reductionTarif(patient, date, prix);
-        
-        rendezVous.add(new Object[]{patient, consultation , date, String.valueOf(estVip), String.valueOf(prix)});
+    
+
+        stockage.save(patient,consultation,date,estVip,prix);
 
         System.out.println("Rendez-vous ajouté pour " + patient + " (" + consultation.getName() + ") le " + date + " - " + prix + " FCFA");
 
@@ -69,18 +69,21 @@ public class GestionRendezVous {
     }
 
     public void afficherRendezVous() {
-        for (Object[] r : rendezVous) {
+        for (Object[] r : stockage.getRendezVous()) {
             System.out.println(r[0] + " | " + r[1] + " | " + r[2] + " | VIP=" + r[3] + " | " + r[4] + " FCFA");
         }
     }
 
     public int nombreRendezVous(String patient, String date) {
         int count = 0;
-        for (Object[] r : rendezVous) {
+        this.afficherRendezVous();
+        for (Object[] r : stockage.getRendezVous()) {
             if (r[0].equals(patient) && r[2].equals(date)) {
                 count++;
             }
         }
+
+        System.out.println("le nombre de rv "+count);
         return count;
     }
 
@@ -98,6 +101,6 @@ public class GestionRendezVous {
     }
 
     public List<Object[]> getRendezVous() {
-        return rendezVous;
+        return this.stockage.getRendezVous();
     }
 }

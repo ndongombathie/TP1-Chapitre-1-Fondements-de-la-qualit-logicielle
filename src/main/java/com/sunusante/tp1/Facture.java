@@ -25,7 +25,7 @@ public class Facture {
         for (Object[] r : this.rendezVous) {
             if (r[0].equals(this.patient)) {
                 TypeConsultation type = (TypeConsultation)r[1];
-                boolean vip = Boolean.parseBoolean((String)r[3]);
+                boolean vip = (Boolean)r[3];
                 String date = (String)r[2];
                 LocalDate d = LocalDate.parse(date);
                 this.tarif= new Tarif(type, d, total, vip);
