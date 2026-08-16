@@ -47,13 +47,7 @@ public class GestionRendezVous {
 
      private double calculeTarifReductionEstvip(boolean estVip,String type,double prix){
         if (estVip) {
-            if (type.equals("GENERALISTE")) {
-                prix = prix - prix * 0.1;
-            } else if (type.equals("SPECIALISTE")) {
-                prix = prix - prix * 0.1;
-            } else if (type.equals("URGENCE")) {
-                prix = prix - prix * 0.1;
-            }
+            prix *= 0.90;
         }
         return prix;
     }
