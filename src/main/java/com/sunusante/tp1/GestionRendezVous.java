@@ -21,7 +21,6 @@ public class GestionRendezVous {
     // Chaque rendez-vous est stocké comme : [patient, type, date, vip, prix]
     private Tarif tarif = null;
     private Stockage stockage = new Stockage();
-    
     //calcule le tarif de la consultation en fonction du type de consultation
 
     public double ajouterRendezVous(String patient, TypeConsultation consultation, String date, boolean estVip) {
@@ -41,7 +40,6 @@ public class GestionRendezVous {
         prix = tarif.calculeTarifReductionEstvip();
         
         prix = tarif.reductionTarif(date, stockage);
-    
 
         stockage.save(patient,consultation,date,estVip,prix);
 
@@ -57,12 +55,6 @@ public class GestionRendezVous {
         
         stockage.getRendezVous().removeIf(r -> r[0].equals(patient) && r[2].equals(date));
         System.out.println("Rendez-vous annulé pour " + patient + " le " + date);
-    }
-
-    public void afficherRendezVous() {
-        for (Object[] r : stockage.getRendezVous()) {
-            System.out.println(r[0] + " | " + r[1] + " | " + r[2] + " | VIP=" + r[3] + " | " + r[4] + " FCFA");
-        }
     }
 
     public int nombreRendezVous(String patient, String date) {

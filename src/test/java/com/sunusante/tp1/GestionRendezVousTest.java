@@ -72,7 +72,8 @@ class GestionRendezVousTest {
     void Test_afficherRendezVous() {
         GestionRendezVous g = new GestionRendezVous();
         g.ajouterRendezVous("Awa Ndiaye", new Generaliste(), "2026-07-21", true); // 5000
-        g.afficherRendezVous();
+        AffichageRendezVous affichageRendezVous = new AffichageRendezVous();
+        affichageRendezVous.afficherRendezVous(g.getRendezVous());
     }
 
     @Test
