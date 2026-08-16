@@ -42,7 +42,7 @@ délibérée/involontaire × prudente/imprudente et justifiez en une phrase.
 
 ## 5. Couverture de code
 
-- Couverture globale obtenue : 97 %
+- Couverture globale obtenue : 93 %
 - Classe la moins couverte : GestionRendezVous, pourquoi (justifiée ou pas) ?
 - Parce que La couverture des branches (72 %) montre surtout que certains cas conditionnels ne sont pas encore testés.
 
