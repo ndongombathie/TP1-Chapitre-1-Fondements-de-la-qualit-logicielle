@@ -46,14 +46,11 @@ public class GestionRendezVous {
         double prix;
         
         prix = tarif.calculeTarifTypeConsultation();
-        System.out.println("calcul du prix"+ prix);
 
         prix = tarif.calculeTarifReductionWeekend();
-        System.out.println("calcul du prix"+ prix);
-
+        
         prix = tarif.calculeTarifReductionEstvip();
-        System.out.println("calcul du prix"+ prix);
-
+        
         prix = reductionTarif(patient, date, prix);
         
         rendezVous.add(new Object[]{patient, consultation , date, String.valueOf(estVip), String.valueOf(prix)});
